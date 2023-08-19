@@ -100,7 +100,7 @@ public class Game {
         }
   
         // castling?
-        if (sourcePiece instanceof King && sourcePiece.isCastlingMove(null, null)) {
+        if (sourcePiece instanceof King && sourcePiece.isCastlingMove(move.getStart(), move.getEnd())) {
             System.out.println("castled");
             move.setCastlingMove(true);
         }
