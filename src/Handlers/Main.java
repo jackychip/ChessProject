@@ -1,7 +1,5 @@
 package Handlers;
 
-import javax.swing.JLabel;
-
 import Players.HumanPlayer;
 
 public class Main {

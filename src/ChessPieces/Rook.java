@@ -39,7 +39,7 @@ public class Rook extends Piece {
     public boolean pieceInRoute(Board board, Square start, Square end) {
 
         //get direction of move
-        boolean isFile = Math.abs(start.getY() - end.getY()) == 0 ? true : false;
+        boolean isFile = Math.abs(start.getY() - end.getY()) == 0;
 
         //checking if a piece is blocking move
         if (isFile) {
@@ -60,10 +60,6 @@ public class Rook extends Piece {
         }
 
 
-        return false;
-    }
-
-    public boolean isCastlingMove(Square start, Square end) {
         return false;
     }
 }

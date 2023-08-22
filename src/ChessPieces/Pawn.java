@@ -5,16 +5,17 @@ import Handlers.Piece;
 import Handlers.Square;
 
 public class Pawn extends Piece {
+
+    private int direction;
+    private int startingPos;
     
     public Pawn(boolean white) {
         super(white);
+        direction = white ? 1 : -1;
+        startingPos = white ? 6 : 1;
     }
 
     public boolean canMove(Board board, Square start, Square end) {
-        //directions based on color
-        int direction = this.isWhite() ? 1 : -1;
-        //starting position based on color
-        int startingPos = this.isWhite() ? 6 : 1;
 
         //x y delta coordinates 
         int x = Math.abs(start.getY() - end.getY());
@@ -35,16 +36,13 @@ public class Pawn extends Piece {
                 return true;
             }
         }
+        
         if (y == direction && end.getPiece() == null) {
             return true;
         }
 
         //TO-DO: en passant & promoting
 
-        return false;
-    }
-
-    public boolean isCastlingMove(Square start, Square end) {
         return false;
     }
 }

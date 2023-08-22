@@ -5,7 +5,6 @@ public class Move {
     private Square start;
     private Square end;
     private Piece pieceKilled;
-    private boolean castlingMove = false;
   
     public Move(Player player, Square start, Square end)
     {
@@ -24,15 +23,5 @@ public class Move {
 
     public void setPieceKilled(Piece piece) {
         this.pieceKilled = piece;
-    }
-  
-    public boolean isCastlingMove()
-    {
-        return this.castlingMove;
-    }
-  
-    public void setCastlingMove(boolean castlingMove)
-    {
-        this.castlingMove = castlingMove;
     }
 }

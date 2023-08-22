@@ -23,8 +23,4 @@ public class Knight extends Piece {
 
         return x * y == 2;
     }
-
-    public boolean isCastlingMove(Square start, Square end) {
-        return false;
-    }
 }

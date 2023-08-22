@@ -11,6 +11,7 @@ import ChessPieces.Queen;
 import ChessPieces.Rook;
 
 public class Board {
+    public Graphics graphics;
     Square[][] squares = new Square[8][8];
 
     public Board() {
@@ -70,7 +71,8 @@ public class Board {
         }
 
         //Chess Graphics
-        JFrame frame = new Graphics();
+        graphics = new Graphics();
+        JFrame frame = graphics;
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
