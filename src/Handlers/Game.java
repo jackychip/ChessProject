@@ -99,12 +99,6 @@ public class Game {
             move.setPieceKilled(destPiece);
         }
   
-        // castling?
-        if (sourcePiece instanceof King && sourcePiece.isCastlingMove(move.getStart(), move.getEnd())) {
-            System.out.println("castled");
-            move.setCastlingMove(true);
-        }
-  
         // store the move
         movesPlayed.add(move);
   
@@ -113,7 +107,6 @@ public class Game {
         move.getStart().setPiece(null);
   
         if (destPiece instanceof King) {
-            System.out.println("game won by white");
             if (player.isWhiteSide()) {
                 this.setStatus(Status.WHITE_WIN);
                 System.out.println("game won by white");
