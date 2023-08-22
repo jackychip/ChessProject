@@ -49,9 +49,4 @@ public class Bishop extends Piece {
 
 		return false;
     }
-
-    public boolean isCastlingMove(Square start, Square end) {
-        return false;
-    }
-
 }
