@@ -154,6 +154,17 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
         }
     }
 
+    public void movePiece(int locationX, int locationY, int destX, int destY) {
+        Container square = (Container)board.getComponent(locationX * 8 + locationY);
+        JLabel piece = (JLabel)square.getComponent(0); 
+        piece.setVisible(false);
+        Container dest = (Container)board.getComponent(destX * 8 + destY);
+
+        square.remove(0);
+        dest.add(piece);
+        piece.setVisible(true);
+    }
+
     @Override
     public void mouseDragged(MouseEvent e) {
         if (chessPiece == null) return;
