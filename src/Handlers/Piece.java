@@ -21,6 +21,4 @@ public abstract class Piece {
     }
 
     public abstract boolean canMove(Board board, Square start, Square end);
-
-    public abstract boolean isCastlingMove(Square start, Square end);
 }
