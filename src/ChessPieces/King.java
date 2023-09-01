@@ -29,9 +29,12 @@ public class King extends Piece {
             return false;
         }
 
-        //x y delta coordinates 
+        //x y delta
         int x = Math.abs(start.getY() - end.getY());
         int y = Math.abs(start.getX() - end.getX());
+
+        //is king initial position checked?
+        // this.setChecked(this.isChecked(board, start));
 
         //castling
         if (this.canCastle(board, start, end)) {
@@ -40,6 +43,8 @@ public class King extends Piece {
             int position = start.getY() < end.getY() ? 7 : 0;
 
             board.graphics.movePiece(startingPos, position, startingPos, end.getY() + direction);
+            board.getBox(startingPos, end.getY() + direction).setPiece(board.getBox(startingPos, position).getPiece());
+            board.getBox(startingPos, position).setPiece(null);
             
             this.setCastled(true);
             return true;
@@ -50,10 +55,14 @@ public class King extends Piece {
             return false;
         }
 
+        //does end move result in a check?
+        // this.setChecked(this.isChecked(board, end));
+
         //king has moved and therefore cannot castle
         if (!this.isCastled()) {
             this.setCastled(true);
         }
+
         return true;
     }
 
@@ -88,7 +97,4 @@ public class King extends Piece {
         return true;
     }
 
-    public boolean isChecked() {
-        return false;
-    }
 }
