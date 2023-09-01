@@ -19,7 +19,7 @@ public class Rook extends Piece {
             return false;
         }
 
-        //x y delta coordinates 
+        //x y delta 
         int x = Math.abs(start.getY() - end.getY());
         int y = Math.abs(start.getX() - end.getX());
 
