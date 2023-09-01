@@ -11,6 +11,8 @@ import ChessPieces.Queen;
 import ChessPieces.Rook;
 
 public class Board {
+    public Check whiteCheck;
+    public Check blackCheck;
     public Graphics graphics;
     Square[][] squares = new Square[8][8];
 
@@ -29,6 +31,7 @@ public class Board {
         squares[0][2] = new Square(0, 2, new Bishop(false));
         squares[0][3] = new Square(0, 3, new Queen(false));
         squares[0][4] = new Square(0, 4, new King(false));
+        blackCheck = new Check(squares[0][4]);
         squares[0][5] = new Square(0, 5, new Bishop(false));
         squares[0][6] = new Square(0, 6, new Knight(false));
         squares[0][7] = new Square(0, 7, new Rook(false));
@@ -49,6 +52,7 @@ public class Board {
         squares[7][2] = new Square(7, 2, new Bishop(true));
         squares[7][3] = new Square(7, 3, new Queen(true));
         squares[7][4] = new Square(7, 4, new King(true));
+        whiteCheck = new Check(squares[7][4]);
         squares[7][5] = new Square(7, 5, new Bishop(true));
         squares[7][6] = new Square(7, 6, new Knight(true));
         squares[7][7] = new Square(7, 7, new Rook(true));
