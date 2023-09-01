@@ -13,11 +13,11 @@ public class Game {
     private Status status;
     private List<Move> movesPlayed = new ArrayList<>();
 
-    public Game() {
-        
+    public Game(Player p1, Player p2) {
+        this.initialize(p1, p2);
     }
   
-    void initialize(Player p1, Player p2)
+    private void initialize(Player p1, Player p2)
     {
         players[0] = p1;
         players[1] = p2;
@@ -69,8 +69,6 @@ public class Game {
         if (sourcePiece == null) {
             return false;
         }
-
-        System.out.println("white? " + sourcePiece.isWhite() + " " + player.isWhiteSide());
   
         // valid player?
         if (player != currentTurn) {
@@ -89,6 +87,34 @@ public class Game {
             System.out.println("invalid move");
             return false;
         }
+
+        Check check = player.isWhiteSide() ? board.whiteCheck : board.blackCheck;
+
+        //king is checked?
+        if (check.isChecked(board, check.kingPos)) {
+            System.out.println("checked");
+        }
+
+        Piece temp = move.getEnd().getPiece();
+
+        //temp move king to ending square
+        if (sourcePiece instanceof King) {
+            System.out.println("king moved");
+            check.kingPos = move.getEnd();
+            move.getEnd().setPiece(move.getStart().getPiece());
+        }
+
+        if (check.isChecked(board, check.kingPos)) {
+            System.out.println("end checked");
+
+            if (sourcePiece instanceof King) {
+                check.kingPos = move.getStart();
+            }
+
+            return false;
+        }
+
+        move.getEnd().setPiece(temp);
   
         // kill?
         Piece destPiece = move.getEnd().getPiece();
@@ -105,17 +131,18 @@ public class Game {
         // move piece from the start square to end square
         move.getEnd().setPiece(move.getStart().getPiece());
         move.getStart().setPiece(null);
-  
-        if (destPiece instanceof King) {
-            if (player.isWhiteSide()) {
-                this.setStatus(Status.WHITE_WIN);
-                System.out.println("game won by white");
-            }
-            else {
-                this.setStatus(Status.BLACK_WIN);
-                System.out.println("game won by black");
-            }
-        }
+        
+        //this checkmate code is bs
+        // if (destPiece instanceof King) {
+        //     if (player.isWhiteSide()) {
+        //         this.setStatus(Status.WHITE_WIN);
+        //         System.out.println("game won by white");
+        //     }
+        //     else {
+        //         this.setStatus(Status.BLACK_WIN);
+        //         System.out.println("game won by black");
+        //     }
+        // }
   
         // set the current turn to the other player
         if (this.currentTurn == players[0]) {
