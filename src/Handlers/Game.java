@@ -9,7 +9,7 @@ import Enums.Status;
 public class Game {
     public Player[] players = new Player[2];
     private Board board;
-    public Player currentTurn;
+    private Player currentTurn;
     private Status status;
     private List<Move> movesPlayed = new ArrayList<>();
 
@@ -88,20 +88,16 @@ public class Game {
             return false;
         }
 
-        Check check = player.isWhiteSide() ? board.whiteCheck : board.blackCheck;
-
-        //king is checked?
-        if (check.isChecked(board, check.kingPos)) {
-            System.out.println("checked");
-        }
+        Check check = board.getCheckObject(player.isWhiteSide());
 
         Piece temp = move.getEnd().getPiece();
 
+        move.getEnd().setPiece(move.getStart().getPiece());
+        move.getStart().setPiece(null);
+
         //temp move king to ending square
         if (sourcePiece instanceof King) {
-            System.out.println("king moved");
             check.kingPos = move.getEnd();
-            move.getEnd().setPiece(move.getStart().getPiece());
         }
 
         if (check.isChecked(board, check.kingPos)) {
@@ -111,26 +107,18 @@ public class Game {
                 check.kingPos = move.getStart();
             }
 
-            return false;
-        }
+            move.getStart().setPiece(move.getEnd().getPiece());
+            move.getEnd().setPiece(temp);
 
-        move.getEnd().setPiece(temp);
-  
-        // kill?
-        Piece destPiece = move.getEnd().getPiece();
-        
-        if (destPiece != null) {
-            System.out.println("piece killed");
-            destPiece.setKilled(true);
-            move.setPieceKilled(destPiece);
+            return false;
         }
   
         // store the move
         movesPlayed.add(move);
   
-        // move piece from the start square to end square
-        move.getEnd().setPiece(move.getStart().getPiece());
-        move.getStart().setPiece(null);
+        // // move piece from the start square to end square
+        // move.getEnd().setPiece(move.getStart().getPiece());
+        // move.getStart().setPiece(null);
         
         //this checkmate code is bs
         // if (destPiece instanceof King) {
