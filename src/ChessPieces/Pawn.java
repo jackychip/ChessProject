@@ -27,15 +27,12 @@ public class Pawn extends Piece {
         }
 
         if (pieceInRoute(board, start, end)) {
-            System.out.println("e1");
             return false;
         }
 
         //moving
-        if (start.getX() == startingPos) {
-            if (y == -direction*2 && x == 0) {
-                return true;
-            }
+        if (start.getX() == startingPos && y == -direction*2 && x == 0) {
+            return true;
         }
         
         if (y == -direction && end.getPiece() == null && x == 0) {
@@ -50,7 +47,7 @@ public class Pawn extends Piece {
     public boolean pieceInRoute(Board board, Square start, Square end) {
 
         //checking if a piece is blocking move
-        for(int i = 1; i < Math.abs(start.getX() - end.getX()); ++i){
+        for(int i = 1; i < Math.abs(start.getX() - end.getX()) + 1; ++i){
             if(board.getBox(start.getX() + i * direction, start.getY()).getPiece() != null) {
                 return true;
             }
