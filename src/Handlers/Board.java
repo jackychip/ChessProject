@@ -24,6 +24,10 @@ public class Board {
         return squares[x][y];
     }
 
+    public Check getCheckObject(boolean isWhite) {
+        return isWhite ? whiteCheck : blackCheck;
+    }
+
     private void resetBoard() {
         //black pieces
         squares[0][0] = new Square(0, 0, new Rook(false));
