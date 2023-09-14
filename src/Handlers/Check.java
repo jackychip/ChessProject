@@ -115,7 +115,10 @@ public class Check {
     private boolean rookCheck (Board board, Square sq) {
 
         //upward
+        // System.out.println("x" + sq.getY());
+        // System.out.println("y" + sq.getX());
         for (int i = sq.getX() - 1; i >= 0; --i) {
+            // System.out.println("up: " + i);
             if(board.getBox(i, sq.getY()).getPiece() != null) {
                 if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(i, sq.getY()).getPiece() instanceof Rook) {
@@ -129,7 +132,8 @@ public class Check {
         }
 
         //downward
-        for (int i = sq.getX(); i <= 7; ++i) {
+        for (int i = sq.getX() + 1; i <= 7; ++i) {
+            // System.out.println("down: " + i);
             if(board.getBox(i, sq.getY()).getPiece() != null) {
                 if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(i, sq.getY()).getPiece() instanceof Rook) {
@@ -143,7 +147,8 @@ public class Check {
         }
 
         //right
-        for (int i = sq.getY(); i <= 7; ++i) {
+        for (int i = sq.getY() + 1; i <= 7; ++i) {
+            // System.out.println("right: " + i);
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(sq.getX(), i).getPiece() instanceof Rook) {
@@ -157,7 +162,8 @@ public class Check {
         }
 
         //left
-        for (int i = sq.getY(); i >= 0; --i) {
+        for (int i = sq.getY() - 1; i >= 0; --i) {
+            // System.out.println("left: " + i);
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(sq.getX(), i).getPiece() instanceof Rook) {
@@ -194,24 +200,25 @@ public class Check {
                     }
                 }
             }
+
         }
 
         //upward
         for (int i = sq.getX() - 1; i >= 0; --i) {
-            if(board.getBox(i, sq.getY()).getPiece() != null) {
-                if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
-                    if (board.getBox(i, sq.getY()).getPiece() instanceof Queen) {
-                        return true;
+                if(board.getBox(i, sq.getY()).getPiece() != null) {
+                    if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
+                        if (board.getBox(i, sq.getY()).getPiece() instanceof Queen) {
+                            return true;
+                        }
                     }
-                }
                 else {
                     break;
                 }
             }
         }
-
+        
         //downward
-        for (int i = sq.getX(); i <= 7; ++i) {
+        for (int i = sq.getX() + 1; i <= 7; ++i) {
             if(board.getBox(i, sq.getY()).getPiece() != null) {
                 if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(i, sq.getY()).getPiece() instanceof Queen) {
@@ -225,7 +232,7 @@ public class Check {
         }
 
         //right
-        for (int i = sq.getY(); i <= 7; ++i) {
+        for (int i = sq.getY() + 1; i <= 7; ++i) {
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(sq.getX(), i).getPiece() instanceof Queen) {
@@ -239,7 +246,7 @@ public class Check {
         }
 
         //left
-        for (int i = sq.getY(); i >= 0; --i) {
+        for (int i = sq.getY() - 1; i >= 0; --i) {
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
                     if (board.getBox(sq.getX(), i).getPiece() instanceof Queen) {
