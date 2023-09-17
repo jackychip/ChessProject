@@ -144,7 +144,7 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void resetMove(JLabel pieceKilled, Container backSquare) {
-        Component square = board.getComponent(startSquareX * 8 + startSquareY);
+        Component square = board.getComponent(startSquareY * 8 + startSquareX);
         Container back = (Container)square;
         back.add(chessPiece);
         chessPiece.setVisible(true);
@@ -155,10 +155,10 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
     }
 
     public void movePiece(int locationX, int locationY, int destX, int destY) {
-        Container square = (Container)board.getComponent(locationX * 8 + locationY);
+        Container square = (Container)board.getComponent(locationY * 8 + locationX);
         JLabel piece = (JLabel)square.getComponent(0); 
         piece.setVisible(false);
-        Container dest = (Container)board.getComponent(destX * 8 + destY);
+        Container dest = (Container)board.getComponent(destY * 8 + destX);
 
         square.remove(0);
         dest.add(piece);
@@ -167,7 +167,7 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (chessPiece == null) return;
+        if (chessPiece == null || Main.game.isEnd()) return;
         chessPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
     }
     
@@ -179,6 +179,7 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if(Main.game.isEnd()) return;
         chessPiece = null;
         Component c =  board.findComponentAt(e.getX(), e.getY());
  
@@ -194,15 +195,15 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
 
         for (int i = 0; i < board.getComponents().length; i++) {
             if (board.getComponent(i) == board.getComponentAt(chessPiece.getLocation())) {
-                startSquareX = i / 8;
-                startSquareY = i % 8;
+                startSquareY = i / 8;
+                startSquareX = i % 8;
             }
         }
     }
     
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(chessPiece == null) return;
+        if(chessPiece == null || Main.game.isEnd()) return;
  
         chessPiece.setVisible(false);
         Component c =  board.findComponentAt(e.getX(), e.getY());
@@ -219,8 +220,8 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
 
             for (int i = 0; i < board.getComponents().length; i++) {
                 if (board.getComponent(i) == board.getComponentAt(parent.getLocation())) {
-                    endSquareX = i / 8;
-                    endSquareY = i % 8;
+                    endSquareY = i / 8;
+                    endSquareX = i % 8;
                 }
             }
 
@@ -238,8 +239,8 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
 
             for (int i = 0; i < board.getComponents().length; i++) {
                 if (board.getComponent(i) == board.getComponentAt(c.getLocation())) {
-                    endSquareX = i / 8;
-                    endSquareY = i % 8;
+                    endSquareY = i / 8;
+                    endSquareX = i % 8;
                 }
             }
         }
@@ -253,7 +254,6 @@ public class Graphics extends JFrame implements MouseListener, MouseMotionListen
         else {
             playerThatMoved = !Main.game.players[0].isWhiteSide() ? Main.game.players[0] : Main.game.players[1];
         }
-
 
         if (!Main.game.playerMove(playerThatMoved, startSquareX, startSquareY, endSquareX, endSquareY)) {
             this.resetMove(pieceKilled, backSquare);

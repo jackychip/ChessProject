@@ -18,8 +18,8 @@ public class Bishop extends Piece {
         }
 
         //x y delta
-        int x = Math.abs(start.getY() - end.getY());
-        int y = Math.abs(start.getX() - end.getX());
+        int x = Math.abs(start.getX() - end.getX());
+        int y = Math.abs(start.getY() - end.getY());
 
         //non-diagonal movement
         if (x != y) {
@@ -37,12 +37,12 @@ public class Bishop extends Piece {
     public boolean pieceInDiagonal(Board board, Square start, Square end) {
 
         //get direction of move
-        int dirX = start.getY() < end.getY() ? 1 : -1;
-        int dirY = start.getX() < end.getX() ? 1 : -1;
+        int dirX = start.getX() < end.getX() ? 1 : -1;
+        int dirY = start.getY() < end.getY() ? 1 : -1;
 
         //checking if a piece is blocking move diagonal
         for(int i = 1; i < Math.abs(start.getX() - end.getX()); ++i){
-			if(board.getBox(start.getX() + i * dirY, start.getY() + i * dirX).getPiece() != null) {
+			if(board.getBox(start.getX() + i * dirX, start.getY() + i * dirY).getPiece() != null) {
 				return true;
 			}
 		}

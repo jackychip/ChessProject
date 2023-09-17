@@ -4,7 +4,6 @@ public class Move {
     private Player player;
     private Square start;
     private Square end;
-    private Piece pieceKilled;
   
     public Move(Player player, Square start, Square end)
     {
@@ -19,9 +18,5 @@ public class Move {
 
     public Square getEnd() {
         return this.end;
-    }
-
-    public void setPieceKilled(Piece piece) {
-        this.pieceKilled = piece;
     }
 }

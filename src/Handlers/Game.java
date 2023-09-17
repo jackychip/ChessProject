@@ -24,6 +24,7 @@ public class Game {
   
         board = new Board();
 
+        this.setStatus(Status.ACTIVE);
         movesPlayed.clear();
   
         if (p1.isWhiteSide()) {
@@ -55,16 +56,16 @@ public class Game {
         if (startX == endX && startY == endY) {
             return false;
         }
-        System.out.println("coordinates: " + startX + " " + startY + " " + endX + " " + endY);
+
         Square startBox = board.getBox(startX, startY);
         Square endBox = board.getBox(endX, endY);
-        System.out.println("pieces: " + startBox.getPiece() + " " + endBox.getPiece());
         Move move = new Move(player, startBox, endBox);
         return this.makeMove(move, player);
     }
   
     private boolean makeMove(Move move, Player player)
     {
+
         Piece sourcePiece = move.getStart().getPiece();
         if (sourcePiece == null) {
             return false;
@@ -88,12 +89,13 @@ public class Game {
             return false;
         }
 
-        Check check = board.getCheckObject(player.isWhiteSide());
-
         Piece temp = move.getEnd().getPiece();
 
+        //move piece
         move.getEnd().setPiece(move.getStart().getPiece());
         move.getStart().setPiece(null);
+
+        Check check = board.getCheckObject(player.isWhiteSide());
 
         //temp move king to ending square
         if (sourcePiece instanceof King) {
@@ -115,22 +117,6 @@ public class Game {
   
         // store the move
         movesPlayed.add(move);
-  
-        // // move piece from the start square to end square
-        // move.getEnd().setPiece(move.getStart().getPiece());
-        // move.getStart().setPiece(null);
-        
-        //this checkmate code is bs
-        // if (destPiece instanceof King) {
-        //     if (player.isWhiteSide()) {
-        //         this.setStatus(Status.WHITE_WIN);
-        //         System.out.println("game won by white");
-        //     }
-        //     else {
-        //         this.setStatus(Status.BLACK_WIN);
-        //         System.out.println("game won by black");
-        //     }
-        // }
   
         // set the current turn to the other player
         if (this.currentTurn == players[0]) {

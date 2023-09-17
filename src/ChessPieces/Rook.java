@@ -20,8 +20,8 @@ public class Rook extends Piece {
         }
 
         //x y delta 
-        int x = Math.abs(start.getY() - end.getY());
-        int y = Math.abs(start.getX() - end.getX());
+        int x = Math.abs(start.getX() - end.getX());
+        int y = Math.abs(start.getY() - end.getY());
 
         //non-straight movement
         if (x * y != 0 || (x == 0 && y == 0)) {

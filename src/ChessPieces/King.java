@@ -30,21 +30,18 @@ public class King extends Piece {
         }
 
         //x y delta
-        int x = Math.abs(start.getY() - end.getY());
-        int y = Math.abs(start.getX() - end.getX());
-
-        //is king initial position checked?
-        // this.setChecked(this.isChecked(board, start));
+        int x = Math.abs(start.getX() - end.getX());
+        int y = Math.abs(start.getY() - end.getY());
 
         //castling
         if (this.canCastle(board, start, end)) {
 
-            int direction = start.getY() < end.getY() ? -1 : 1;
-            int position = start.getY() < end.getY() ? 7 : 0;
+            int direction = start.getX() < end.getX() ? -1 : 1;
+            int position = start.getX() < end.getX() ? 7 : 0;
 
-            board.graphics.movePiece(startingPos, position, startingPos, end.getY() + direction);
-            board.getBox(startingPos, end.getY() + direction).setPiece(board.getBox(startingPos, position).getPiece());
-            board.getBox(startingPos, position).setPiece(null);
+            board.graphics.movePiece(position, startingPos, end.getX() + direction, startingPos);
+            board.getBox(end.getX() + direction, startingPos).setPiece(board.getBox(position, startingPos).getPiece());
+            board.getBox(position, startingPos).setPiece(null);
             
             this.setCastled(true);
             return true;
@@ -74,21 +71,22 @@ public class King extends Piece {
         }
         
         //check that start and end square indicate intention to castle
-        if (Math.abs(start.getY() - end.getY()) != 2) {
+        if (Math.abs(start.getX() - end.getX()) != 2) {
             return false;
         }
 
         //check if any pieces are obstructing King and Rook
-        if (start.getY() < end.getY()) {   
+        if (start.getX() < end.getX()) {   
             for (int i = 5; i < 7; i++) {
-                if (board.getBox(startingPos, i).getPiece() != null) {
+                if (board.getBox(i, startingPos).getPiece() != null) {
+                    System.out.println("E");
                     return false;
                 }
             }
         }
         else {
             for (int i = 3; i > 0; i--) {
-                if (board.getBox(startingPos, i).getPiece() != null) {
+                if (board.getBox(i, startingPos).getPiece() != null) {
                     return false;
                 }
             }

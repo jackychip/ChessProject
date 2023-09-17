@@ -14,6 +14,33 @@ public class Check {
         this.kingPos = kingPos;
     }
 
+    public boolean isCheckmated(Board board, Square sq) {
+
+        int[] xDirections = {0, 1, 1, 1, 0, -1, -1,-1};
+        int[] yDirections = {-1, -1, 0, 1, 1, 1, 0, -1};
+
+        int numOfBadSquares = 0;
+
+        for (int i = 0; i < 8; i++) {
+            if (sq.getX() + yDirections[i] < 0 || sq.getX() + yDirections[i] > 7 || sq.getY() + xDirections[i] < 0 || sq.getY() + xDirections[i] > 7) {
+                numOfBadSquares++;
+                continue;
+            }
+
+            if (board.getBox(sq.getX() + yDirections[i], sq.getY() + xDirections[i]).getPiece() != null 
+            && board.getBox(sq.getX() + yDirections[i], sq.getY() + xDirections[i]).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
+                numOfBadSquares++;
+                continue;
+            }
+
+            if (this.isChecked(board, board.getBox(sq.getX() + yDirections[i], sq.getY() + xDirections[i]))) {
+                numOfBadSquares++;
+            }
+        }
+
+        return numOfBadSquares == 8;
+    }
+
     public boolean isChecked(Board board, Square sq) {
 
         //check for pawns
@@ -82,23 +109,27 @@ public class Check {
     }
 
     private boolean bishopCheck(Board board, Square sq) {
-        final int[] xDirections = {-1, 1, -1, 1};
-        final int[] yDirections = {1, 1, -1, -1};
+        final int[] xDirections = {1, 1, -1, -1};
+        final int[] yDirections = {-1, 1, -1, 1};
 
         for (int i = 0; i < 4; i++) {
-            int yComparison = yDirections[i] < 0 ? sq.getX() : 8 - sq.getX();
-            int xComparison = xDirections[i] < 0 ? sq.getY() : 8 - sq.getY();
+            int xComparison = xDirections[i] < 0 ? sq.getX() : 8 - sq.getX();
+            int yComparison = yDirections[i] < 0 ? sq.getY() : 8 - sq.getY();
             int limit = yComparison < xComparison ? yComparison : xComparison;
 
+            // System.out.println("yCom: " + yComparison);
+            // System.out.println("xCom: " + xComparison);
             // System.out.println("limit: " + limit);
 
             for (int j = 1; j < limit; ++j) {
-                // System.out.println("x: " + (sq.getX() + j * yPositions[i]));
-                // System.out.println("y: " + (sq.getY() + j * xPositions[i]));
-                if(board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece() != null) {
-                    if (board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
-                        // System.out.println(board.getBox(sq.getX() + j * yPositions[i], sq.getY() + j * xPositions[i]).getPiece());
-                        if (board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece() instanceof Bishop) {
+                // System.out.println("SQx: " + (sq.getX()));
+                // System.out.println("SQy: " + (sq.getY()));
+                // System.out.println("x: " + (sq.getX() + j * xDirections[i]));
+                // System.out.println("y: " + (sq.getY() + j * yDirections[i]));
+                if(board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece() != null) {
+                    // System.out.println(board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece());
+                    if (board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
+                        if (board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece() instanceof Bishop) {
                             return true;
                         }
                     }
@@ -114,7 +145,7 @@ public class Check {
 
     private boolean rookCheck (Board board, Square sq) {
 
-        //upward
+        //left
         // System.out.println("x" + sq.getY());
         // System.out.println("y" + sq.getX());
         for (int i = sq.getX() - 1; i >= 0; --i) {
@@ -131,7 +162,7 @@ public class Check {
             }
         }
 
-        //downward
+        //right
         for (int i = sq.getX() + 1; i <= 7; ++i) {
             // System.out.println("down: " + i);
             if(board.getBox(i, sq.getY()).getPiece() != null) {
@@ -146,7 +177,7 @@ public class Check {
             }
         }
 
-        //right
+        //downward
         for (int i = sq.getY() + 1; i <= 7; ++i) {
             // System.out.println("right: " + i);
             if(board.getBox(sq.getX(), i).getPiece() != null) {
@@ -161,7 +192,7 @@ public class Check {
             }
         }
 
-        //left
+        //upward
         for (int i = sq.getY() - 1; i >= 0; --i) {
             // System.out.println("left: " + i);
             if(board.getBox(sq.getX(), i).getPiece() != null) {
@@ -180,18 +211,18 @@ public class Check {
     }
 
     private boolean queenCheck(Board board, Square sq) {
-        final int[] xDirections = {-1, 1, -1, 1};
-        final int[] yDirections = {1, 1, -1, -1};
+        final int[] xDirections = {1, 1, -1, -1};
+        final int[] yDirections = {-1, 1, -1, 1};
 
         for (int i = 0; i < 4; i++) {
-            int yComparison = yDirections[i] < 0 ? sq.getX() : 8 - sq.getX();
-            int xComparison = xDirections[i] < 0 ? sq.getY() : 8 - sq.getY();
+            int xComparison = xDirections[i] < 0 ? sq.getX() : 8 - sq.getX();
+            int yComparison = yDirections[i] < 0 ? sq.getY() : 8 - sq.getY();
             int limit = yComparison < xComparison ? yComparison : xComparison;
 
             for (int j = 1; j < limit; ++j) {
-                if(board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece() != null) {
-                    if (board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
-                        if (board.getBox(sq.getX() + j * yDirections[i], sq.getY() + j * xDirections[i]).getPiece() instanceof Queen) {
+                if(board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece() != null) {
+                    if (board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
+                        if (board.getBox(sq.getX() + j * xDirections[i], sq.getY() + j * yDirections[i]).getPiece() instanceof Queen) {
                             return true;
                         }
                     }
@@ -200,24 +231,21 @@ public class Check {
                     }
                 }
             }
-
         }
 
-        //upward
         for (int i = sq.getX() - 1; i >= 0; --i) {
-                if(board.getBox(i, sq.getY()).getPiece() != null) {
-                    if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
-                        if (board.getBox(i, sq.getY()).getPiece() instanceof Queen) {
-                            return true;
-                        }
+            if(board.getBox(i, sq.getY()).getPiece() != null) {
+                if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
+                    if (board.getBox(i, sq.getY()).getPiece() instanceof Queen) {
+                        return true;
                     }
+                }
                 else {
                     break;
                 }
             }
         }
-        
-        //downward
+
         for (int i = sq.getX() + 1; i <= 7; ++i) {
             if(board.getBox(i, sq.getY()).getPiece() != null) {
                 if (board.getBox(i, sq.getY()).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
@@ -231,7 +259,6 @@ public class Check {
             }
         }
 
-        //right
         for (int i = sq.getY() + 1; i <= 7; ++i) {
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
@@ -245,7 +272,6 @@ public class Check {
             }
         }
 
-        //left
         for (int i = sq.getY() - 1; i >= 0; --i) {
             if(board.getBox(sq.getX(), i).getPiece() != null) {
                 if (board.getBox(sq.getX(), i).getPiece().isWhite() != kingPos.getPiece().isWhite()) {
@@ -261,5 +287,4 @@ public class Check {
 
         return false;
     }
-
 }
