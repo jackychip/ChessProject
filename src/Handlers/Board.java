@@ -11,9 +11,9 @@ import ChessPieces.Queen;
 import ChessPieces.Rook;
 
 public class Board {
-    public Check whiteCheck;
-    public Check blackCheck;
-    public Graphics graphics;
+    private Check whiteCheck;
+    private Check blackCheck;
+    private Graphics graphics;
     Square[][] squares = new Square[8][8];
 
     public Board() {
@@ -26,6 +26,10 @@ public class Board {
 
     public Check getCheckObject(boolean isWhite) {
         return isWhite ? whiteCheck : blackCheck;
+    }
+
+    public Graphics getGraphicsObject() {
+        return graphics;
     }
 
     private void resetBoard() {

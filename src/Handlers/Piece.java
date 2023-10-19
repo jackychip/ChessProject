@@ -1,5 +1,7 @@
 package Handlers;
 
+import java.util.List;
+
 public abstract class Piece {
     private boolean killed;
     private boolean white;
@@ -20,5 +22,6 @@ public abstract class Piece {
         return killed;
     }
 
-    public abstract boolean canMove(Board board, Square start, Square end);
+    public abstract boolean canMove(Board board, Square start, Square end, Check check);
+    public abstract List<Move> generatePossibleMoves(Board board, Square start, boolean showHighlights, Check check);
 }

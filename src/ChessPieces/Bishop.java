@@ -1,6 +1,11 @@
 package ChessPieces;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Handlers.Board;
+import Handlers.Check;
+import Handlers.Move;
 import Handlers.Piece;
 import Handlers.Square;
 
@@ -10,7 +15,7 @@ public class Bishop extends Piece {
         super(white);
     }
 
-    public boolean canMove(Board board, Square start, Square end) {
+    public boolean canMove(Board board, Square start, Square end, Check check) {
 
         //captured piece is not own piece
         if (end.getPiece() != null && end.getPiece().isWhite() == this.isWhite()) {
@@ -31,6 +36,23 @@ public class Bishop extends Piece {
             return false;
         }
 
+        //check after move
+        Piece temp = end.getPiece();
+
+        end.setPiece(start.getPiece());
+        start.setPiece(null);
+
+        if (check.isChecked(board, check.kingPos) > 0) {
+
+            start.setPiece(end.getPiece());
+            end.setPiece(temp);
+
+            return false;
+        }
+
+        start.setPiece(end.getPiece());
+        end.setPiece(temp);
+
         return true;
     }
 
@@ -48,5 +70,23 @@ public class Bishop extends Piece {
 		}
 
 		return false;
+    }
+
+    public List<Move> generatePossibleMoves(Board board, Square start, boolean showHighlights, Check check) {
+        List<Move> moves = new ArrayList<Move>();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (this.canMove(board, start, board.getBox(i, j), check)) {
+                    moves.add(new Move(start, board.getBox(i, j)));
+                }
+            }
+        }
+
+        if (showHighlights) {
+            board.getGraphicsObject().highlightPossibleMoves(moves);
+        }
+
+        return moves;
     }
 }
