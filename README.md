@@ -1,3 +1,3 @@
-# Chess Replication Project (in java)
+#Chess!
 
-a preliminary project before i begin a chess engine, which will be in a separate repository
+A recreation of the beloved, classic game of chess. That's it!
